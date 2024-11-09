@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Oslava</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Remove any default body margin */
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      .incorrect {
+        color: rgb(255, 75, 68);
+      }
+      .correct {
+        color: rgb(68, 255, 137);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Registration section -->
+    <section class="h-screen bg-[#9dbac1] text-black">
+      <div class="container mx-auto flex items-center justify-center h-full">
+        <div
+          class="w-full max-w-5xl border-2 border-black bg-transparent rounded-2xl shadow-xl p-8 lg:p-10"
+        >
+          <h2 class="text-3xl leading-none font-bold mb-8 text-center">
+            Oslava / Register
+          </h2>
+          <form
+            action="/signUp"
+            method="post"
+            class="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <!-- Name -->
+            <div>
+              <label class="block mb-1 font-normal" for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="UserName"
+                placeholder="Enter your name"
+                class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                required
+              />
+            </div>
+            <!-- Email -->
+            <div>
+              <label class="block mb-1 font-normal" for="email"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                required
+              />
+            </div>
+
+            <!-- WhatsApp Number -->
+            <div>
+              <label class="block mb-1 font-normal" for="whatsapp"
+                >Mobile Number</label
+              >
+              <input
+                type="text"
+                id="whatsapp"
+                name="mobileNumber"
+                placeholder="Enter your Mobile number"
+                class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                required
+              />
+            </div>
+            <div>
+              <label class="block mb-1 font-normal" for="password"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="block mb-1 font-normal"
+                id="instruction"
+                for="confirmPassword"
+                >Confirm Password</label
+                required
+              >
+              <input
+                type="password"
+                onchange="checkPass()"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                required
+              />
+            </div>
+            <!-- Volunteer Option -->
+            <div class="col-span-2">
+              <input type="checkbox" id="volunteer" class="mr-2" />
+              <label class="font-normal" for="volunteer"
+                >I want to volunteer</label
+              >
+            </div>
+            <!-- Extra Details for Volunteers -->
+            <div
+              id="volunteer-details"
+              class="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 hidden"
+            >
+              <!-- Interested Field -->
+              <div class="md:col-span-2">
+                <label class="block mb-1 font-normal" for="skills"
+                  >Skills</label
+                >
+                <input
+                  type="text"
+                  id="skills"
+                  placeholder="Enter your skills (comma-separated)"
+                  class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                />
+              </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="col-span-2">
+              <button
+                type="submit"
+                class="bg-transparent border-2 border-black text-black py-3 px-6 rounded w-full mt-4"
+              >
+                Register
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Script to show/hide volunteer details -->
+    <script>
+      document
+        .getElementById("volunteer")
+        .addEventListener("change", function () {
+          const details = document.getElementById("volunteer-details");
+          details.classList.toggle("hidden", !this.checked);
+        });
+
+      function checkPass() {
+        let instruction = document.getElementById("instruction");
+        document.getElementById("form_signIn");
+        console.log();
+
+        if (password.value == confirmPassword.value) {
+          if (instruction.classList.contains("incorrect")) {
+            instruction.classList.replace("incorrect", "correct");
+          } else {
+            instruction.classList.add("correct");
+          }
+          instruction.textContent = "Passward is correct";
+          form_signIn.setAttribute("onsubmit", "return true");
+          console.log("correct");
+        } else {
+          if (instruction.classList.contains("correct")) {
+            instruction.classList.replace("correct", "incorrect");
+          } else {
+            instruction.classList.add("incorrect");
+          }
+          let form_signIn = document.getElementById("form_signIn");
+          form_signIn.setAttribute("onsubmit", "event.preventDefault()");
+          console.log(
+            "incorrect" + password.value + "," + confirmPassword.value
+          );
+          instruction.textContent = "Passward not matching";
+        }
+      }
+    </script>
+  </body>
+</html>

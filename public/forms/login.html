@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login-Oslava</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- login section -->
+    <section class="ezy__signin1_5VS6yLhl h-screen py-14 md:py-24 bg-[#9dbac1] text-black">
+        <div class="container mx-auto px-4 flex items-center justify-center">
+          <div class="w-full max-w-lg border-2 border-black bg-transparent rounded-2xl shadow-xl">
+            <div class="p-8 lg:p-10">
+              <h2 class="text-3xl leading-none font-bold mb-12">Oslava/Log In</h2>
+              <form method="post" action="/logIn">
+                <div class="mb-4">
+                  <label class="block mb-2 font-normal" for="mobileNumber">Mobile Number</label>
+                  <input
+                    type="number"
+                    class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                    id="mobileNumber"
+                    name="mobileNumber"
+                    placeholder="Enter Mobile Number"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label class="block mb-2 font-normal" for="password">Password</label>
+                  <input
+                    type="password"
+                    class="w-full bg-black text-white min-h-[48px] leading-10 px-4 p-2 rounded-lg"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Password"
+                  />
+                </div>
+                <button type="submit" class="bg-transparent border-2 border-black text-black py-3 px-6 rounded w-full">Log In</button>
+                <button class="hover:text-blue-600 font-medium py-2 px-4 rounded-lg w-full mt-4">
+                  Forget your password?
+                </button>
+                <hr class="my-8 border-t border-gray-300" />
+                <button class="bg-red-500 text-white py-3 px-6 rounded w-full flex items-center justify-center mt-4">
+                  <span class="fab fa-google mr-2 text-white"></span>
+                  <span class="text-center">Continue with Google</span>
+                </button>
+                <div class="text-center mt-8">
+                  <p class="opacity-50">Don't have an account?</p>
+                  <a href="#" class="hover:text-blue-600 font-medium text-decoration-none">Create account</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+</html>
