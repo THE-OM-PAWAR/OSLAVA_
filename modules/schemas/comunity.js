@@ -13,31 +13,35 @@ var OslavaDataBase = mongoose.createConnection(
     autoIndex: true,  }
 );
   const users_schema =  new mongoose.Schema({
-  userName: String,
-  userMobile: {
+  communityName: String,
+  presidentName: String,
+  VicePresidentName: String,
+  SecretaryName: String,
+  members: Number,
+
+  clubDescription: {
+    type: String,
+    required: true,
+  },
+  officialEmail: {
+    type: String,
+    required: true,
+  },
+  contactNumber: {
     type: Number,
     required: true,
-    unique: true,
   },
-  userPassward: {
-    type: String,
-    required: true,
-  },
-  userEmail: {
-    type: String,
-    required: true,
-  },
-  tokens : [{
-    token: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+
+  joinedMember:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref : "Users"
   }],
-  profileImg : String ,
-  userPosition :String,
-  signUpDate : Date,
-  loginStatus : Boolean,
+  joinedVolunteer:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref : "Users"
+  }],
+  communityProfile : String ,
+  ragistrationDate : Date,
 })
 
  //                MIDDLEWARE                   //
@@ -65,7 +69,7 @@ users_schema.pre('save' , async function(next){
 } )
 
 
-var users = OslavaDataBase.model("Users", users_schema);
+var Communities = OslavaDataBase.model("Communities", users_schema);
 
 //======= Exportin Collection Here =======//
-module.exports = { users };
+module.exports = { Communities };

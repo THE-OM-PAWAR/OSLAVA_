@@ -26,7 +26,9 @@ app.use(cookieParser());
 
 // ============declearing module=========//
 const { users } = require("./modules/schemas/User_Module");
+const data_serving = require("./modules/authentication/user_data _server");
 const authentication_logout = require("./modules/authentication/authentication_logout");
+const authentication = require("./modules/authentication/authentication");
 
 //============= Static file  ============//
 app.use(express.static(__dirname + "/public"));
@@ -51,6 +53,12 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 
+app.get("/createCommunity", authentication,  async (req, res) => {
+  res.sendFile(__dirname + "/public/forms/createCommunity.html");
+});
+app.post("/createCommunity", authentication,  async (req, res) => {
+  console.log(req.body)
+});
 app.get("/signUp", async (req, res) => {
   res.sendFile(__dirname + "/public/forms/signup.html");
 });
@@ -141,6 +149,17 @@ app.post("/logIn", async (req, res) => {
 });
 
 
+app.get("/m_data", data_serving, (req, res) => {
+  let user = req.user;
+  let position = user.user_position;
+  if (position === "volunteer") {
+      res.status(200).json({ position: position });
+  } else {
+      res.status(200).json({ position: "user" });
+  }
+});
+
+
 //============= logoutAll pages are here ============//
 
 app.get("/logoutAll", authentication_logout, async (req, res) => {
@@ -179,3 +198,60 @@ app.get("/logoutAll", authentication_logout, async (req, res) => {
 http.listen(port, "0.0.0.0", () => {
   console.log(`the app is runing at port http://localhost:${port}`);
 });
+
+
+io.on("connection", async (socket) => {
+  console.log("Connected...");
+
+  socket.on("confirm", () => {
+    console.log("user connectiion confirm...");
+  });
+
+
+  // giving menu here
+  socket.on("menu-please", async (info) => {
+    console.log(info + 234);
+    try {
+      if (info === "loged_in") {
+        let menu = [
+          { name: "profile", herf: "consoles/userProfile.html" },
+          { name: "NOtificatios", herf: "#" },
+          { name: "joined Events", herf: "consoles/joinedEvent.html" },
+          { name: "about", herf: "#" },
+          { name: "Logout", herf: "logoutAll" },
+        ];
+        socket.emit("take-menu", menu);
+      } else if (info === "remain") {
+        let menu = [
+          { name: "logIn", herf: "logIn" },
+          // { name: "Log in", herf: "logIn" },
+          // { name: "Sign in", herf: "signIn" },
+          { name: "signup", herf: "signUp" },
+          { name: "about us", herf: "HTML/about.html" },
+          { name: "communities", herf: "HTML/result_form.html" },
+        ];
+        socket.emit("take-menu", menu);
+      } else if (info === "supervisor") {
+        let menu = [
+          { name: "topper", herf: "HTML/topper.html" },
+          { name: "Logout", herf: "logoutAll" },
+          { name: "Post Result", herf: "HTML/result_form.html" },
+          { name: "Draft Result", herf: "HTML/draft_result.html" },
+          { name: "Batches", herf: "HTML/fee_structure.html" },
+          { name: "About Us", herf: "HTML/about.html" },
+          { name: "Console", herf: "management_console" },
+        ];
+        socket.emit("take-menu", menu);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  // ================= DISCONECT INFORMER =================//
+  socket.on("disconnect", () => {
+    console.log(socket.id + " disconnected");
+  });
+});
+
+
+console.log("")

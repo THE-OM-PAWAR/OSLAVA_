@@ -1,38 +1,38 @@
-// const menu_option = document.getElementById("menu_option");
+const menu_option = document.getElementById("menuOptionsbox");
 
 // getting the menu from here
-// socket.on("take-menu", (menu) => {
-//   let arr_menu = menu;
+socket.on("take-menu", (menu) => {
+  let arr_menu = menu;
 
-//   // ,creating menu options using for each loop
-//   arr_menu.forEach((element) => {
-//     let menu_options = document.createElement("li");
-//     menu_options.className = "menu_options";
-//     menu_options.innerHTML = `<div >${element.name}</div>`;
-//     menu_option.appendChild(menu_options);
-//     menu_options.setAttribute("id", `${element.herf}`);
-//     menu_options.setAttribute("onclick", `btn_func(this)`);
+  // ,creating menu options using for each loop
+  arr_menu.forEach((element) => {
+    let menu_options = document.createElement("div");
+    menu_options.className = "menuOption";
+    menu_options.innerHTML = `${element.name}`;
+    menu_option.appendChild(menu_options);
+    menu_options.setAttribute("id", `${element.herf}`);
+    menu_options.setAttribute("onclick", `btn_func(this)`);
 
-//     // let box = document.getElementById("menuBtnC");
-//   });
-// });
+    let box = document.getElementById("menuBtnC");
+  });
+});
 
 // function for all menu option onclick
 let btn_func = async (element) => {
   if (element.id === "logIn") {
     window.open(`/${element.id}`, "_self");
-  } else if (element.id === "signIn") {
+  } else if (element.id === "signUp") {
     window.open(`/${element.id}`, "_self");
-  } else if (element.id === "HTML/topper.html") {
+  } else if (element.id === "consoles/userProfile.html") {
     window.open(`/${element.id}`, "_self");
-  } else if (element.id === "HTML/fee_structure.html") {
+  } else if (element.id === "consoles/joinedEvent.html") {
     window.open(`/${element.id}`, "_self");
-  } else if (element.id === "HTML/result_form.html") {
+  } else if (element.id === "HTML/about.html") {
     window.open(`/${element.id}`, "_self");
   } else if (element.id === "HTML/draft_result.html") {
     window.open(`/${element.id}`, "_self");
-  }else if (element.id === "HTML/about.html") {
-    window.open(`/${element.id}`, "_self");
+  }else if (element.id === "#") {
+    window.open(`/html/underdevelopment.html`, "_self");
   }else if (element.id === "Home") {
     window.open(`/`, "_self");
   } else if (element.id === "management_console") {
@@ -48,7 +48,7 @@ let btn_func = async (element) => {
     const modal_html = data.body.modal_html;
     if (data.position === "modal6") {
       const modal_main = document.getElementById("modal_main");
-      close_btn_func();
+      closeMenu()
       modal_main.innerHTML = modal_html;
       modal_js();
     }
@@ -77,3 +77,9 @@ const mobile_no2 = document.getElementById("mobile_no2");
 const help_line_no = document.getElementById("help_line_no");
 
 
+function closeMenu() {
+  document.getElementById("menuSection").style.width = 0
+}
+function openMenu() {
+  document.getElementById("menuSection").style.width = "100vw"
+}

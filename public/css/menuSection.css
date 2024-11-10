@@ -1,0 +1,46 @@
+.menuSection{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffffaf;
+    top: 0;
+    right: 0;
+    backdrop-filter: blur(4px);
+    z-index: 90;
+    transition: .3s;
+    width: 0;
+    overflow: hidden;
+}
+
+.crossbtn{
+    margin: 1rem;
+    margin-left: auto;
+    width: 3rem;
+}
+.crossbtn svg{
+    width: 100%;
+}
+/* .closeMenu{
+    transform: translateX(100%);
+} */
+
+.menuOptionsbox{
+    display: flex;
+    flex-direction: column;
+    margin: 4rem;
+    margin-top: auto;
+    margin-left: auto;
+}
+.menuOption{
+    font-size: 5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 4.8rem;
+    transition: .3s;
+}
+.menuOption:hover{
+    letter-spacing: -.2rem;
+}
