@@ -497,8 +497,18 @@
      <script src="javaScript/local.js"></script>
      <script>
         socket.emit("send-data-of-community")
-        socket.on("take-data-of-community" , community=>{
 
+        socket.on("take-data-of-community" , (community , owner )=>{
+            console.log(owner == true)
+            let userbuttons
+            if (owner == true) {
+                userbuttons = `<a href="#" ><button class="join-btn">Create Event</button> </a>
+                <a href="#" ><button class="volunteer-btn">edit profile</button></a>`
+            }else{
+                userbuttons = `<a href="#" ><button class="join-btn">Join</button> </a>
+                <a href="#" ><button class="volunteer-btn">Join As Volunteer</button></a>`
+                
+            }
             let profileInfo = document.getElementById("profile-info")
             profileInfo.innerHTML = `            
             <h1>${community.communityName}</h1>
@@ -512,8 +522,7 @@
                 <div>2 Live Events</div>
             </div>
             <div class="profile-buttons">
-                <button class="join-btn">Join</button>
-                <button class="volunteer-btn">Join as Volunteer</button>
+                ${userbuttons}
             </div>`
             console.log(community)
 
@@ -522,6 +531,7 @@
 
 
         })
+
      </script>
 </body>
 </html>

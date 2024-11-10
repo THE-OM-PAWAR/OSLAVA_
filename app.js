@@ -302,7 +302,7 @@ io.on("connection", async (socket) => {
     const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
     const user = await users.findOne({ _id: verifyUser._id });
 
-    console.log(user)
+    console.log(user.communities)
      user.communities.forEach(async element =>{
       let communities = await Communities.find({_id : element})
       socket.emit("take-my-communites" , communities[0])
@@ -356,19 +356,22 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("send-data-of-community" , async()=>{
-    // const token_obj = cookie.parse(socket.handshake.headers.cookie);
-    // const token = token_obj.jwt_user;
-    // const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
-    // const user = await users.findOne({ _id: verifyUser._id });
+    const token_obj = cookie.parse(socket.handshake.headers.cookie);
+    const token = token_obj.jwt_user;
+    const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+    const user = await users.findOne({ _id: verifyUser._id });
 
-    console.log(token_id)
-
-    // console.log(user)
-    //  user.communities.forEach(async element =>{
+    console.log(user.communities)
+    let owner;
+      user.communities.forEach(async element =>{
+        if (element == token_id._id) {
+          owner = true
+        }
+      })
+      console.log(owner)
       let community = await Communities.find({_id : token_id._id})
       console.log(community)
-      socket.emit("take-data-of-community" , community[0])
-    // })
+      await socket.emit("take-data-of-community" , community[0] , owner)
   })
   // ================= DISCONECT INFORMER =================//
   socket.on("disconnect", () => {
