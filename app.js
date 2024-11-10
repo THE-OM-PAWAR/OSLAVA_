@@ -26,6 +26,7 @@ app.use(cookieParser());
 
 // ============declearing module=========//
 const { users } = require("./modules/schemas/User_Module");
+const { Communities } = require("./modules/schemas/community");
 const data_serving = require("./modules/authentication/user_data _server");
 const authentication_logout = require("./modules/authentication/authentication_logout");
 const authentication = require("./modules/authentication/authentication");
@@ -58,6 +59,56 @@ app.get("/createCommunity", authentication,  async (req, res) => {
 });
 app.post("/createCommunity", authentication,  async (req, res) => {
   console.log(req.body)
+
+  console.log(req.user)
+
+  const userId = req.user._id;
+    const {
+      communityName,
+      description,
+      officialEmail,
+      contactNumber,
+      PresidentName,
+      vicePresidentName,
+      SeceretaryName,
+      Members
+    } = req.body;
+
+   // Convert `Members` to a number
+   const members = parseInt(Members, 10);
+
+    // Creating a new instance of the Communities model
+    const newCommunity = new Communities({
+      communityName,
+      clubDescription: description,
+      officialEmail,
+      contactNumber,
+      presidentName: PresidentName,
+      VicePresidentName: vicePresidentName,
+      SecretaryName: SeceretaryName,
+      members: Members,
+      ragistrationDate: new Date() // Automatically set the current date
+    });
+
+    console.log(newCommunity)
+
+    await newCommunity.save().then(async ()=>{
+      const updatedCommunity = await Communities.findByIdAndUpdate(
+        newCommunity._id,
+        { $addToSet: { joinedMember: req.user._id } }, // $addToSet avoids duplicate entries
+        { new: true } // Return the updated document
+      );
+      console.log(newCommunity._id)
+      if (!updatedCommunity) {
+        return res.status(404).json({ error: "Community not found" });
+      }else{
+        res.status(200).json({ message: "User added to joinedMember", community: updatedCommunity });
+  
+      }
+    });
+    
+
+
 });
 app.get("/signUp", async (req, res) => {
   res.sendFile(__dirname + "/public/forms/signup.html");
