@@ -233,20 +233,10 @@
     </div>
 
     <!-- Profile Section -->
-    <section class="profile">
+    <section class="profile" id="profileDiv">
         <img src="https://via.placeholder.com/150" alt="Community Logo">
-        <div class="profile-info">
-            <h1>Fibonacci</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula enim sit amet tellus tempor.</p>
-            <div class="profile-stats">
-                <div>457 Members</div>
-                <div>23 Volunteers</div>
-                <div>2 Live Events</div>
-            </div>
-            <div class="profile-buttons">
-                <button class="join-btn">Join</button>
-                <button class="volunteer-btn">Join as Volunteer</button>
-            </div>
+        <div class="profile-info" id="profile-info">
+
         </div>
     </section>
     <!-- Updates Section -->
@@ -503,12 +493,35 @@
 
 
      <script src="/socket.io/socket.io.js"></script>
-     <!-- <script>
-        let socket = io();
+     <script src="javaScript/user_data.js"></script>
+     <script src="javaScript/local.js"></script>
+     <script>
         socket.emit("send-data-of-community")
-        socket.on("take-data-of-community" , (data)=>{
-            console.log(data)
+        socket.on("take-data-of-community" , community=>{
+
+            let profileInfo = document.getElementById("profile-info")
+            profileInfo.innerHTML = `            
+            <h1>${community.communityName}</h1>
+            <p>${community.clubDescription}</p>
+            <p><b>Board members </b> :- ${community.presidentName} ,${community.VicePresidentName} ,${community.SecretaryName} </p>
+            <p></p>
+            <p></p>
+            <div class="profile-stats">
+                <div>457 Members</div>
+                <div>23 Volunteers</div>
+                <div>2 Live Events</div>
+            </div>
+            <div class="profile-buttons">
+                <button class="join-btn">Join</button>
+                <button class="volunteer-btn">Join as Volunteer</button>
+            </div>`
+            console.log(community)
+
+
+            profileDiv.children[0].src = "uploads/CommunityProfiles/"+community.communityProfile
+
+
         })
-     </script> -->
+     </script>
 </body>
 </html>

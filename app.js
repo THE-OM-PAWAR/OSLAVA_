@@ -106,7 +106,7 @@ app.post("/createCommunity", authentication, communityProfileUpload,  async (req
       presidentName: PresidentName,
       VicePresidentName: vicePresidentName,
       SecretaryName: SeceretaryName,
-      members: members,
+      members: 20,
       communityProfile: src,
       ragistrationDate: new Date() // Automatically set the current date
     });
@@ -133,8 +133,7 @@ app.post("/createCommunity", authentication, communityProfileUpload,  async (req
       if (!updatedCommunity) {
         return res.status(404).json({ error: "Community not found" });
       }else{
-        res.status(200).json({ message: "User added to joinedMember", community: updatedCommunity });
-  
+        res.status(200).redirect("/community?_id="+newCommunity._id);
       }
     });
     
@@ -148,6 +147,7 @@ app.get("/signUp", async (req, res) => {
 let token_id;
 app.get("/community", async (req, res) => {
   console.log("ompawar")
+  console.log(req.query)
   token_id = req.query;
   
   res.sendFile(__dirname + "/public/html/clubprofile.html");
@@ -356,16 +356,18 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("send-data-of-community" , async()=>{
-    token_id
     // const token_obj = cookie.parse(socket.handshake.headers.cookie);
     // const token = token_obj.jwt_user;
     // const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
     // const user = await users.findOne({ _id: verifyUser._id });
 
+    console.log(token_id)
+
     // console.log(user)
     //  user.communities.forEach(async element =>{
-      let communities = await Communities.find({_id : token_id})
-      socket.emit("take-data-of-community" , cosmmunities[0])
+      let community = await Communities.find({_id : token_id._id})
+      console.log(community)
+      socket.emit("take-data-of-community" , community[0])
     // })
   })
   // ================= DISCONECT INFORMER =================//
