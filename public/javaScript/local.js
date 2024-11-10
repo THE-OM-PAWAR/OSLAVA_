@@ -33,6 +33,8 @@ let btn_func = async (element) => {
     window.open(`/${element.id}`, "_self");
   }else if (element.id === "#") {
     window.open(`/html/underdevelopment.html`, "_self");
+  }else if (element.id === "MyCommunity") {
+    window.open(`/MyCommunity`, "_self");
   }else if (element.id === "Home") {
     window.open(`/`, "_self");
   } else if (element.id === "management_console") {

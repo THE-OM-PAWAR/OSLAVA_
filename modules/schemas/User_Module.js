@@ -27,6 +27,10 @@ var OslavaDataBase = mongoose.createConnection(
     type: String,
     required: true,
   },
+  communities:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref : "Communities"
+  }],
   tokens : [{
     token: {
       type: String,

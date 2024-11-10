@@ -37,17 +37,21 @@ app.use(express.urlencoded({ extended: false }));
 
 //============= Storage For Image ============//
 
-// //============= Storage For Image ============//
-// var storage_student = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "./public/uploads/result_folder");
-//     console.log(file);
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + Math.floor(Math.random() * 1000) + file.originalname);
-//     ``;
-//   },
-// });
+//============= Storage For Image ============//
+var CommunityProfile = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads/CommunityProfiles");
+    console.log(file);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + Math.floor(Math.random() * 1000) + file.originalname);
+    ``;
+  },
+});
+let uploads2 = multer({ storage: CommunityProfile });
+var communityProfileUpload = uploads2.fields([{ name: "CommunityProfile" }]);
+
+
 
 app.get("/", (req, res) => {
   console.log("ompawar");
@@ -57,12 +61,24 @@ app.get("/", (req, res) => {
 app.get("/createCommunity", authentication,  async (req, res) => {
   res.sendFile(__dirname + "/public/forms/createCommunity.html");
 });
-app.post("/createCommunity", authentication,  async (req, res) => {
+app.get("/MyCommunity", authentication,  async (req, res) => {
+  res.sendFile(__dirname + "/public/html/mycommunities.html");
+});
+app.post("/createCommunity", authentication, communityProfileUpload,  async (req, res) => {
+  console.log(req.files)
   console.log(req.body)
 
-  console.log(req.user)
+  
+  let src;
+  if (!req.files.CommunityProfile) {
+    console.log(req.files, 45);
+    src = "default.svg";
+  } else {
+    src = req.files.CommunityProfile[0].filename;
+  }
+  console.log(src)
 
-  const userId = req.user._id;
+    const userId = req.user._id;
     const {
       communityName,
       description,
@@ -74,8 +90,12 @@ app.post("/createCommunity", authentication,  async (req, res) => {
       Members
     } = req.body;
 
-   // Convert `Members` to a number
-   const members = parseInt(Members, 10);
+    // Convert `Members` to a number
+    let members 
+    if (Members == NaN) {
+     members = 0 
+    }
+   members = parseInt(Members, 10);
 
     // Creating a new instance of the Communities model
     const newCommunity = new Communities({
@@ -86,19 +106,30 @@ app.post("/createCommunity", authentication,  async (req, res) => {
       presidentName: PresidentName,
       VicePresidentName: vicePresidentName,
       SecretaryName: SeceretaryName,
-      members: Members,
+      members: members,
+      communityProfile: src,
       ragistrationDate: new Date() // Automatically set the current date
     });
 
     console.log(newCommunity)
 
     await newCommunity.save().then(async ()=>{
+
+
+
       const updatedCommunity = await Communities.findByIdAndUpdate(
         newCommunity._id,
-        { $addToSet: { joinedMember: req.user._id } }, // $addToSet avoids duplicate entries
+        { $addToSet: { joinedMember: userId } }, // $addToSet avoids duplicate entries
         { new: true } // Return the updated document
       );
-      console.log(newCommunity._id)
+
+      const updatedUser = await users.findByIdAndUpdate(
+        userId,
+        { $push: { communities: newCommunity._id } }, // $push adds the userId to the joinedMember array
+        { new: true } // Return the updated document
+      );
+
+
       if (!updatedCommunity) {
         return res.status(404).json({ error: "Community not found" });
       }else{
@@ -112,6 +143,14 @@ app.post("/createCommunity", authentication,  async (req, res) => {
 });
 app.get("/signUp", async (req, res) => {
   res.sendFile(__dirname + "/public/forms/signup.html");
+});
+
+let token_id;
+app.get("/community", async (req, res) => {
+  console.log("ompawar")
+  token_id = req.query;
+  
+  res.sendFile(__dirname + "/public/html/clubprofile.html");
 });
 
 app.post("/signUp", async (req, res) => {
@@ -212,7 +251,6 @@ app.get("/m_data", data_serving, (req, res) => {
 
 
 //============= logoutAll pages are here ============//
-
 app.get("/logoutAll", authentication_logout, async (req, res) => {
     try {
       req.user.tokens = [];
@@ -257,19 +295,36 @@ io.on("connection", async (socket) => {
   socket.on("confirm", () => {
     console.log("user connectiion confirm...");
   });
+  socket.on("give-my-communites" , async()=>{
 
+    const token_obj = cookie.parse(socket.handshake.headers.cookie);
+    const token = token_obj.jwt_user;
+    const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+    const user = await users.findOne({ _id: verifyUser._id });
 
+    console.log(user)
+     user.communities.forEach(async element =>{
+      let communities = await Communities.find({_id : element})
+      socket.emit("take-my-communites" , communities[0])
+    })
+  })
+  socket.on("give-communites" , async()=>{
+    let communities = await Communities.find({})
+    console.log(communities)
+    socket.emit("render-communites" , communities)
+  })
   // giving menu here
   socket.on("menu-please", async (info) => {
     console.log(info + 234);
     try {
       if (info === "loged_in") {
         let menu = [
+          { name: "My Community", herf: "MyCommunity" },
           { name: "profile", herf: "consoles/userProfile.html" },
           { name: "NOtificatios", herf: "#" },
           { name: "joined Events", herf: "consoles/joinedEvent.html" },
           { name: "about", herf: "#" },
-          { name: "Logout", herf: "logoutAll" },
+          { name: "Logout", herf: "logoutAll" }
         ];
         socket.emit("take-menu", menu);
       } else if (info === "remain") {
@@ -284,6 +339,7 @@ io.on("connection", async (socket) => {
         socket.emit("take-menu", menu);
       } else if (info === "supervisor") {
         let menu = [
+          { name: "My Community", herf: "MyCommunity" },
           { name: "topper", herf: "HTML/topper.html" },
           { name: "Logout", herf: "logoutAll" },
           { name: "Post Result", herf: "HTML/result_form.html" },
@@ -298,11 +354,23 @@ io.on("connection", async (socket) => {
       console.log(error);
     }
   });
+
+  socket.on("send-data-of-community" , async()=>{
+    token_id
+    // const token_obj = cookie.parse(socket.handshake.headers.cookie);
+    // const token = token_obj.jwt_user;
+    // const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+    // const user = await users.findOne({ _id: verifyUser._id });
+
+    // console.log(user)
+    //  user.communities.forEach(async element =>{
+      let communities = await Communities.find({_id : token_id})
+      socket.emit("take-data-of-community" , cosmmunities[0])
+    // })
+  })
   // ================= DISCONECT INFORMER =================//
   socket.on("disconnect", () => {
     console.log(socket.id + " disconnected");
   });
 });
 
-
-console.log("")
