@@ -159,7 +159,7 @@ app.post("/signUp", async (req, res) => {
     if (req.body.password == req.body.confirmPassword) {
       console.log(req.body);
         const user_info = await users.find({ userMobile: req.body.mobileNumber });
-        console.log(user_info[0])   
+        // console.log(user_info[0])
         let exist = undefined;
         if (user_info[0] !== undefined) {
           if (user_info[0].userMobile == req.body.mobileNumber) {
@@ -172,8 +172,6 @@ app.post("/signUp", async (req, res) => {
           return;
         }
         if (exist == undefined) {
-
-
           var mydata = new users({
             userName: req.body.UserName,
             userMobile: req.body.mobileNumber,
@@ -182,7 +180,7 @@ app.post("/signUp", async (req, res) => {
             sign_up_date: Date(Date.now()),
           });
           const token = await mydata.generateAuthToken();
-          console.log(token);     
+          // console.log(token);
           console.log("omp 196");
 
           res.cookie("jwt_user", token, {
@@ -209,7 +207,7 @@ app.post("/signUp", async (req, res) => {
 });
 
 let IdObject;
-app.get("/renderThisEvent" , authentication , (req, res) => {
+app.get("/renderThisEvent" , (req, res) => {
   IdObject = req.query;
   res.sendFile(__dirname + "/public/html/eventdashboard.html");
 });
@@ -380,6 +378,19 @@ io.on("connection", async (socket) => {
     socket.emit("take-all-events")
   })
 
+
+  socket.on("give-event-data" , async()=>{
+
+    console.log(IdObject)
+
+    let community = await Communities.find({_id : IdObject.communityId})
+    console.log(community)
+    community.events.forEach(element => {
+      if (element._id == IdObject._id) {
+        socket.emit("take-this-event-data" , element , community)
+      }
+    });
+  })
   // giving menu here
   socket.on("menu-please", async (info) => {
     console.log(info + 234);

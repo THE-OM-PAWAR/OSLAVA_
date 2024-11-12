@@ -185,15 +185,12 @@
             <h1 class="text-xl font-semibold">Oslava</h1>
         </div>
         <div class="flex space-x-6 text-sm font-medium">
-            <a href="/" class="hidden md:inline hover:underline">Create Community</a>
-            <a href="#" class="hidden md:inline hover:underline">Sign Up</a>
-            <a href="#" class="hidden md:inline hover:underline">Login</a>
-            <button class="text-2xl block md:hidden"><i class="fas fa-bars"></i></button>
+            <a href="/" class="hidden md:inline hover:underline">Home</a>
         </div>
     </header>
     <div class="container">
         <div class="banner">
-            <img src="https://via.placeholder.com/800x200?text=Event+Banner" alt="Event Banner">
+            <img id="eventBanner" src="https://via.placeholder.com/800x200?text=Event+Banner" alt="Event Banner">
         </div>
         
         <div class="event-details">
@@ -254,5 +251,17 @@
         </div>
     </div>
 
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javaScript/user_data.js"></script>
+    <script src="javaScript/local.js"></script>
+    <script>
+        let eventBanner = document.getElementById("eventBanner")
+        
+        socket.emit("give-event-data")
+        socket.emit("take-this-event-data" , (event , community)=>{
+            console.log(event)
+        })
+    </script>
 </body>
 </html>

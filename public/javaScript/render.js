@@ -44,7 +44,7 @@ socket.on("take-all-events" , ()=>{
         
         let eventCard = document.createElement("div")
         eventCard.className = " rounded-lg shadow-lg p-4 border-t-4  "
-        eventCard.style = "background : #f1f1f1;"
+        eventCard.style = "background : #f1f1f1; display:flex ; flex-direction: column;"
         eventCard.addEventListener("click" , ()=>{openThisEvent(element._id , element.communityId)})
         eventCard.innerHTML = 
         ` 
@@ -59,7 +59,7 @@ socket.on("take-all-events" , ()=>{
           ${element.eventDescription}
           </p>
 
-          <div class="flex justify-between items-center mt-4">
+          <div style="margin : auto 0 0 0" class="flex justify-between items-center mt-4">
             <span class="text-sm text-gray-500">27 Sep 2024</span>
             <span
               class="bg-gray-200 text-sm text-red-500 px-3 py-1 rounded-full"
@@ -68,7 +68,7 @@ socket.on("take-all-events" , ()=>{
           </div>
 
           <!-- Flex container for circular logo and button in the same line -->
-          <div class="flex items-center mt-4 space-x-4">
+          <div  class="flex items-center ">
             <!-- Circle div for logo -->
             <div
               class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center"
