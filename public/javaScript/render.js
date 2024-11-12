@@ -31,12 +31,22 @@ let events = []
 socket.on("take-events" , async (data , communityData)=>{
     console.log(data)
     await data.forEach(element=>{
-         events.push(element)
+      element.communityName = communityData.communityName
+      element.communityProfile = communityData.communityProfile
+      console.log(element)
+      events.push(element)
     })
 })
 
 socket.on("take-all-events" , ()=>{
-    events.forEach((element)=>{
+  console.log(events)
+    events.forEach(async (element)=>{
+      let communitydata = {
+
+      };
+
+
+
 
 
         let eventContainer = document.getElementById("eventContainer")
@@ -84,7 +94,7 @@ socket.on("take-all-events" , ()=>{
             <button
               class="bg-transparent text-black font-semibold py-2 px-1 rounded-lg text-lg"
             >
-              Community Name
+              ${element.communityName}
             </button>
           </div>`
 

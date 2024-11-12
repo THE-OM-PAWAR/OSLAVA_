@@ -489,6 +489,15 @@ io.on("connection", async (socket) => {
       await socket.emit("take-data-of-community" , community[0] , false)
     }
   })
+
+
+  socket.on("give-this-community-data" , async communityId=>{
+    let community = await Communities.find({_id : communityId})
+    console.log(community)
+    let data = {communityName : community[0].communityName , communityId : community[0]._id , communityProfile : community[0].communityProfile}
+    console.log(data)
+    socket.emit("take-this-community-data" , data )
+  })
   // ================= DISCONECT INFORMER =================//
   socket.on("disconnect", () => {
     console.log(socket.id + " disconnected");
