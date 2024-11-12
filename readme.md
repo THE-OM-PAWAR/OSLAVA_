@@ -3,7 +3,12 @@
 
 # Oslava - Event Management Website
 
+
+
 **Oslava** is a comprehensive event management platform designed to simplify the organization and participation in events. With features tailored for organizers, students, and volunteers, Oslava ensures seamless event discovery, registration, and management.
+
+### Node JS  
+-https://shorturl.at/EB5zJ
 
 ## Features
 
@@ -44,11 +49,11 @@
 
 ## Team Members
 This project was built by:
-- Gourav Rajak
 - Omprakash Pawar
+- Gourav Rajak
 - Satyapal Janghela
 - Vikram Pratap Singh
-- Naman Sharma
+- Naman Sharma 
 
 ## Getting Started
 
@@ -57,24 +62,45 @@ This project was built by:
 - [MongoDB](https://www.mongodb.com/) for database setup
 
 ### Installation
+0. Essential things to be installed:
+   - nodejs
+   - mongoDB atlas
+   - git
+   - a browser
 1. Clone this repository:
    ```bash
    git clone https://github.com/yourusername/oslava.git
 
 2. Install dependencies:
-   ```cd oslava
-     npm install
+   ```
+   cd oslava
+   npm install
 
 3. Set up environment variables:
 Create a .env file with the necessary database and API configuration.
+    ```
+    SECRET_TOKEN_KEY=enterThekey
+    SECRET_TOKEN_KEY2=enterThekey2
+4. Run the project
+    ```
+    node ./app.js
+4. How To Use Application
+-    Sign Up 
+-    then it will be empty then "create community"
+-    then create a event "create Event"
+-    now explore the site
 
+
+4. Run the project
+    ```
+    node ./app.js
 ### Usage
 Organizer: Login, create and manage events.
 Student: Browse events, register, apply for volunteer positions, and receive notifications.
 Admin: Oversee events, monitor feedback, and review engagement stats.
 
-### License
-This project is licensed under the MIT License. See the LICENSE file for details.
+### Use the live link for review
+-https://shorturl.at/EB5zJ
 
 ### Acknowledgments
 Special thanks to the entire team for their contributions and dedication in developing Oslava.
