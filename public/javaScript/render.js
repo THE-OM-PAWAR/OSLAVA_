@@ -26,6 +26,77 @@ socket.on("render-communites" , (communities)=>{
     });
 })
 
+socket.emit("give-all-events")
+let events = []
+socket.on("take-events" , async (data , communityData)=>{
+    console.log(data)
+    await data.forEach(element=>{
+         events.push(element)
+    })
+})
+
+socket.on("take-all-events" , ()=>{
+    events.forEach((element)=>{
+
+
+        let eventContainer = document.getElementById("eventContainer")
+
+        
+        let eventCard = document.createElement("div")
+        eventCard.className = " rounded-lg shadow-lg p-4 border-t-4  "
+        eventCard.style = "background : #f1f1f1;"
+        eventCard.addEventListener("click" , ()=>{openThisEvent(element._id , element.communityId)})
+        eventCard.innerHTML = 
+        ` 
+          <img
+            src="uploads/CommunityProfiles/${element.eventBanner}"
+            alt="Event Image"
+            class="w-full h-40 object-cover rounded-lg"
+          />
+
+          <h3 class="text-lg font-semibold mt-4">${element.eventName}</h3>
+          <p class="text-gray-600 text-sm mt-2">
+          ${element.eventDescription}
+          </p>
+
+          <div class="flex justify-between items-center mt-4">
+            <span class="text-sm text-gray-500">27 Sep 2024</span>
+            <span
+              class="bg-gray-200 text-sm text-red-500 px-3 py-1 rounded-full"
+              >&bull; live</span
+            >
+          </div>
+
+          <!-- Flex container for circular logo and button in the same line -->
+          <div class="flex items-center mt-4 space-x-4">
+            <!-- Circle div for logo -->
+            <div
+              class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center"
+            >
+              <!-- Placeholder for community logo -->
+              <img
+                src="https://placehold.co/40x40"
+                alt="Community Logo"
+                class="w-10 h-10 rounded-full"
+              />
+            </div>
+            <!-- Button for Community Name -->
+            <button
+              class="bg-transparent text-black font-semibold py-2 px-1 rounded-lg text-lg"
+            >
+              Community Name
+            </button>
+          </div>`
+
+        eventContainer.append(eventCard)
+    })
+})
+
+
+function openThisEvent( eventId , communityId){
+  window.open(`/renderThisEvent?_id=${eventId}&communityId=${communityId}`, "_self");
+}
+
 
 
 // socket.on("give-communites" , (data)=>{

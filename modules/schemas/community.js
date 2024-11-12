@@ -31,7 +31,15 @@ var OslavaDataBase = mongoose.createConnection(
     type: Number,
     required: true,
   },
-
+  events : [{
+    communityId : String,
+    eventName: String ,
+    eventDescription : String, 
+    location : String, 
+    creationDate : Date, 
+    eventStatus : String, 
+    eventBanner: String,
+  }],
   joinedMember:[{
     type: mongoose.Schema.Types.ObjectId,
     ref : "Users"

@@ -16,7 +16,7 @@
     transition: all .2s ease-in-out;
 }
 .btn_purple{
-    background: black;
+    background: rgb(197, 197, 197);
     color: white;
     padding: .6rem 1.6rem ;
     border-radius: .2rem;

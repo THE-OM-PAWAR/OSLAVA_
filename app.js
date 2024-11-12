@@ -50,6 +50,7 @@ var CommunityProfile = multer.diskStorage({
 });
 let uploads2 = multer({ storage: CommunityProfile });
 var communityProfileUpload = uploads2.fields([{ name: "CommunityProfile" }]);
+var eventProfileUpload = uploads2.fields([{ name: "eventBanner" }]);
 
 
 
@@ -102,7 +103,7 @@ app.post("/createCommunity", authentication, communityProfileUpload,  async (req
       communityName,
       clubDescription: description,
       officialEmail,
-      contactNumber,
+      contactNumber : parseInt(contactNumber),
       presidentName: PresidentName,
       VicePresidentName: vicePresidentName,
       SecretaryName: SeceretaryName,
@@ -204,6 +205,55 @@ app.post("/signUp", async (req, res) => {
     }
   } catch (error) {
     res.status(400).send("not saveed 216" + error);
+  }
+});
+
+let IdObject;
+app.get("/renderThisEvent" , authentication , (req, res) => {
+  IdObject = req.query;
+  res.sendFile(__dirname + "/public/html/eventdashboard.html");
+});
+
+let communitiesId;
+app.get("/createEvent" , authentication , (req, res) => {
+  communitiesId = req.query;
+  res.sendFile(__dirname + "/public/forms/createevent.html");
+});
+
+app.post("/createEvent" , authentication , eventProfileUpload , async(req, res) => {
+  if (communitiesId && communitiesId.community_Id) {
+    if (req.user.communities.includes(communitiesId.community_Id)) {
+      console.log(req.body)
+      console.log(req.user)
+
+      try {
+        // Use findByIdAndUpdate to find the document and push the new event
+        let newEvent = {
+          communityId : communitiesId.community_Id,
+          eventName : req.body.eventName,
+          eventDescription : req.body.eventDescription,
+          location : req.files.eventLocation ,
+          eventBanner : req.files.eventBanner[0].filename,
+          creationDate : new Date(),
+          eventStatus : "live",
+        }
+        const result = await Communities.findByIdAndUpdate(
+          communitiesId.community_Id,               // ID of the community document
+          { $push: { events: newEvent } },  // Push new event to events array
+          { new: true, useFindAndModify: false }  // Options: return the updated document
+        );
+    
+        console.log("Updated Community:", result);
+        res.redirect("/community?_id="+ communitiesId.community_Id)
+        return result;
+
+      } catch (error) {
+        console.error("Error adding event:", error);
+        throw error;
+      }
+    }
+  }else{
+    res.send("internal server error try again")
   }
 });
 
@@ -310,11 +360,26 @@ io.on("connection", async (socket) => {
       socket.emit("take-my-communites" , communities[0])
     })
   })
+
+
   socket.on("give-communites" , async()=>{
     let communities = await Communities.find({})
-    console.log(communities)
     socket.emit("render-communites" , communities)
   })
+
+
+  socket.on("give-all-events" , async()=>{
+    let communities = await Communities.find({})
+
+    let events = []
+    communities.forEach(element=>{
+      socket.emit("take-events" , element.events , element)
+    })
+
+    console.log(events)
+    socket.emit("take-all-events")
+  })
+
   // giving menu here
   socket.on("menu-please", async (info) => {
     console.log(info + 234);
@@ -363,17 +428,17 @@ io.on("connection", async (socket) => {
     const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
     const user = await users.findOne({ _id: verifyUser._id });
 
-    console.log(user.communities)
+    if (token_id) {
     let owner;
       user.communities.forEach(async element =>{
-        if (element == token_id._id) {
-          owner = true
-        }
-      })
-      console.log(owner)
-      let community = await Communities.find({_id : token_id._id})
-      console.log(community)
-      await socket.emit("take-data-of-community" , community[0] , owner)
+          if (element == token_id._id) {
+            owner = true
+          }
+        })
+        console.log(owner)
+        let community = await Communities.find({_id : token_id._id})
+        await socket.emit("take-data-of-community" , community[0] , owner)
+    }
   })
   // ================= DISCONECT INFORMER =================//
   socket.on("disconnect", () => {
