@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Introducing OSLAVA</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Public Sans", sans-serif;
+        }
+        .body {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        .container{
+            width: 100vw;
+        }
+        .introBackground {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -100;
+            overflow: hidden;
+        }
+        body div.introBackground img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        header .signup {
+            height: 35px;
+            color: white; 
+            background-color: black;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+            
+        }
+        header {
+            width: 100vw;
+            padding: 5px 16px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nevBtn{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .nevBtn a{
+            font-size: 1.2rem;
+            color: #000;
+            text-transform: uppercase;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 0 .8rem;
+        }
+        .nevBtn .signup{    
+            background: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 20px;
+            font-weight: 400;
+        }
+        section {
+            width: 400px;
+            position: absolute;
+            left: 150px;
+            top: 200px;
+        }
+        h1 {
+            font-size: 3.1rem;
+            font-weight: 800;
+        }
+        p {
+            padding: 25px 0 40px 0;
+        }
+        section a {
+            background: #000;
+            color: #fff;
+            padding: 13px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            text-decoration: none;
+            margin: 0;
+            border-radius: 30px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="introBackground">
+        <img src="logo/introBackground.png"> 
+    </div>
+    <div class="container">
+        <header>
+            <div class="flex items-center space-x-3 oslavaLogoHeader">
+                <img src="logo/oslavaLogoDark.png" >
+            </div>
+            <div class="nevBtn">
+                <a href="#">login</a>
+                <a class="signup" href="#">signup</a>
+            </div>
+          </header>
+          <section>
+            <h1>Create Your Own Community</h1>
+            <p>
+                em Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a ty
+            </p>
+            <a href="#" class="start">GET STARTED</a>
+          </section>
+    </div>
+</body>
+</html>
