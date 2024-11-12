@@ -48,8 +48,10 @@ var OslavaDataBase = mongoose.createConnection(
 //============ generating token ===============//
 users_schema.methods.generateAuthToken = async function (){
   try {
-      const token = jwt.sign({ _id: this._id }, process.env.SECRET_TOKEN_KEY)
+    const token = jwt.sign({ _id: this._id }, process.env.SECRET_TOKEN_KEY)
+    console.log("token saved 40") 
       this.tokens = this.tokens.concat({token : token})
+      console.log("token saved 40")
       await this.save();
       console.log("token saved 40")
     return token
