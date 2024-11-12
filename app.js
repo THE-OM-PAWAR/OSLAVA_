@@ -381,13 +381,30 @@ io.on("connection", async (socket) => {
 
   socket.on("give-event-data" , async()=>{
 
+    const token_obj = cookie.parse(socket.handshake.headers.cookie);
+    const token = token_obj.jwt_user;
+    const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+    const user = await users.findOne({ _id: verifyUser._id });
+
+    if (IdObject) {
+    let owner;
+      user.communities.forEach(async element =>{
+          if (element == token_id._id) {
+            owner = true
+          }
+        })
+        console.log(owner)
+        let community = await Communities.find({_id : token_id._id})
+        await socket.emit("take-data-of-community" , community[0] , owner)
+    }
+
     console.log(IdObject)
 
-    let community = await Communities.find({_id : IdObject.communityId})
+    let community = await Communities.findOne({_id : IdObject.communityId})
     console.log(community)
     community.events.forEach(element => {
       if (element._id == IdObject._id) {
-        socket.emit("take-this-event-data" , element , community)
+        socket.emit("take-this-event-data" , element , community , owner)
       }
     });
   })

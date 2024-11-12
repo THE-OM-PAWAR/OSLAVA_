@@ -194,8 +194,8 @@
         </div>
         
         <div class="event-details">
-            <h2>Event Name</h2>
-            <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a.</p>
+            <h2 id="eventName">Event Name</h2>
+            <p id="eventDescription">Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a.</p>
         </div>
 
         <div class="stats">
@@ -254,13 +254,14 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="javaScript/user_data.js"></script>
-    <script src="javaScript/local.js"></script>
     <script>
         let eventBanner = document.getElementById("eventBanner")
         
         socket.emit("give-event-data")
-        socket.emit("take-this-event-data" , (event , community)=>{
-            console.log(event)
+        socket.on("take-this-event-data" , (event , community)=>{
+            eventBanner.src = "/uploads/CommunityProfiles/"+event.eventBanner
+            eventName.textContent = event.eventName
+            eventDescription.textContent = event.eventDescription
         })
     </script>
 </body>
