@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <style>
         * {
@@ -52,6 +53,8 @@
             margin-bottom: 20px;
             overflow: hidden;
             border-radius: 8px;
+            height: 50vw;
+            max-height: 50vh;
         }
 
         .banner img {
@@ -108,7 +111,7 @@
 
         .application-item {
             display: flex;
-            justify-content: space-between;
+            justify-content:space-between;
             align-items: center;
             margin-bottom: 10px;
             padding: 10px;
@@ -124,12 +127,18 @@
         }
 
         .application-item button {
-            background-color: #f44336;
             color: #fff;
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
+            margin: 5px;
+        }
+        .application-item button.delete {
+            background-color: #7f2620;
+        }
+        .application-item button.accept {
+            background-color: #37724b;
         }
 
         .updates {
@@ -162,6 +171,10 @@
             font-size: 2rem;
             color: #333;
             cursor: pointer;
+        }
+        .applications .application-item .applicant-info {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
@@ -206,25 +219,25 @@
         <div class="applications">
             <h3>Application</h3>
             <div class="application-item">
-                <img src="https://via.placeholder.com/40" alt="Applicant">
-                <span>Om Pawar</span>
-                <button>Delete</button>
-            </div>
+                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
+                <span >Om Pawar</span></div>
+                <div><button class="accept">Accept</button><button class="delete">Delete</button>
+            </div></div>
             <div class="application-item">
-                <img src="https://via.placeholder.com/40" alt="Applicant">
-                <span>Om Pawar</span>
-                <button>Delete</button>
-            </div>
+                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
+                <span class="applicant">Om Pawar</span></div>
+                <div><button class="accept">Accept</button><button class="delete">Delete</button>
+            </div></div>
             <div class="application-item">
-                <img src="https://via.placeholder.com/40" alt="Applicant">
-                <span>Om Pawar</span>
-                <button>Delete</button>
-            </div>
+                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
+                <span class="applicant">Om Pawar</span></div>
+                <div><button class="accept">Accept</button><button class="delete">Delete</button>
+            </div></div>
             <div class="application-item">
-                <img src="https://via.placeholder.com/40" alt="Applicant">
-                <span>Om Pawar</span>
-                <button>Delete</button>
-            </div>
+                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
+                <span class="applicant">Om Pawar</span></div>
+               <div><button class="accept">Accept</button><button class="delete">Delete</button>
+            </div></div>
         </div>
 
         <div class="updates">

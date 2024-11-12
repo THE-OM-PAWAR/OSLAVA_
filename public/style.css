@@ -2,3 +2,15 @@
     margin: 0;
     padding: 0;
 }
+.oslavaLogoHeader {
+    height: 100%;
+    width: 180px;
+    overflow: hidden;
+    margin: 3px;
+    
+}
+.oslavaLogoHeader img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
