@@ -27,6 +27,8 @@ app.use(cookieParser());
 // ============declearing module=========//
 const { users } = require("./modules/schemas/User_Module");
 const { Communities } = require("./modules/schemas/community");
+
+const home_auth = require("./modules/authentication/homeAuth");
 const data_serving = require("./modules/authentication/user_data _server");
 const authentication_logout = require("./modules/authentication/authentication_logout");
 const authentication = require("./modules/authentication/authentication");
@@ -54,9 +56,17 @@ var eventProfileUpload = uploads2.fields([{ name: "eventBanner" }]);
 
 
 
-app.get("/", (req, res) => {
+app.get("/", home_auth, (req, res) => {
   console.log("ompawar");
-  res.sendFile(__dirname + "/public/index.html");
+  try {
+    if (req.user) {
+      res.sendFile(__dirname + "/public/index3.html");
+    } else {
+      res.sendFile(__dirname + "/public/index2.html");
+    }
+  } catch (error) {
+    res.sendFile(__dirname + "/public/index3.html");
+  }
 });
 
 app.get("/createCommunity", authentication,  async (req, res) => {
@@ -383,30 +393,35 @@ io.on("connection", async (socket) => {
 
     const token_obj = cookie.parse(socket.handshake.headers.cookie);
     const token = token_obj.jwt_user;
-    const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
-    const user = await users.findOne({ _id: verifyUser._id });
-
-    if (IdObject) {
-    let owner;
-      user.communities.forEach(async element =>{
-          if (element == token_id._id) {
+    if (token !== undefined) {
+      const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+      const user = await users.findOne({ _id: verifyUser._id });
+      
+      if (IdObject) {
+        let owner;
+        user.communities.forEach(async element =>{
+          if (element == IdObject.communityId) {
             owner = true
           }
         })
         console.log(owner)
-        let community = await Communities.find({_id : token_id._id})
-        await socket.emit("take-data-of-community" , community[0] , owner)
-    }
-
-    console.log(IdObject)
-
-    let community = await Communities.findOne({_id : IdObject.communityId})
-    console.log(community)
-    community.events.forEach(element => {
-      if (element._id == IdObject._id) {
-        socket.emit("take-this-event-data" , element , community , owner)
+        let community = await Communities.findOne({_id : IdObject.communityId})
+        
+        community.events.forEach(element => {
+          if (element._id == IdObject._id) {
+            socket.emit("take-this-event-data" , element , community , owner)
+          }
+        });
       }
-    });
+    }else{
+      let community = await Communities.findOne({_id : IdObject.communityId})
+        community.events.forEach(element => {
+          if (element._id == IdObject._id) {
+            socket.emit("take-this-event-data" , element , community )
+          }
+        });
+    }
+      
   })
   // giving menu here
   socket.on("menu-please", async (info) => {
@@ -452,20 +467,26 @@ io.on("connection", async (socket) => {
 
   socket.on("send-data-of-community" , async()=>{
     const token_obj = cookie.parse(socket.handshake.headers.cookie);
-    const token = token_obj.jwt_user;
-    const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
-    const user = await users.findOne({ _id: verifyUser._id });
 
-    if (token_id) {
-    let owner;
-      user.communities.forEach(async element =>{
-          if (element == token_id._id) {
-            owner = true
+    const token = token_obj.jwt_user;
+    if (token !== undefined) {
+      const verifyUser = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
+      const user = await users.findOne({ _id: verifyUser._id });
+      
+          if (token_id) {
+          let owner;
+            user.communities.forEach(async element =>{
+                if (element == token_id._id) {
+                  owner = true
+                }
+              })
+              console.log(owner)
+              let community = await Communities.find({_id : token_id._id})
+              await socket.emit("take-data-of-community" , community[0] , owner)
           }
-        })
-        console.log(owner)
-        let community = await Communities.find({_id : token_id._id})
-        await socket.emit("take-data-of-community" , community[0] , owner)
+    }else{
+      let community = await Communities.find({_id : token_id._id})
+      await socket.emit("take-data-of-community" , community[0] , false)
     }
   })
   // ================= DISCONECT INFORMER =================//
@@ -473,4 +494,3 @@ io.on("connection", async (socket) => {
     console.log(socket.id + " disconnected");
   });
 });
-
