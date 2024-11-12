@@ -1,304 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
 
-        body {
-            background-color: #e0e0e0;
-            color: #333;
-        }
+      body {
+        background-color: #e0e0e0;
+        color: #333;
+      }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: #d4d4d4;
-        }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        background-color: #d4d4d4;
+      }
 
-        header img {
-            width: 100px;
-        }
+      header img {
+        width: 100px;
+      }
 
-        header nav a {
-            color: #333;
-            margin-left: 20px;
-            text-decoration: none;
-            font-size: 1rem;
-        }
+      header nav a {
+        color: #333;
+        margin-left: 20px;
+        text-decoration: none;
+        font-size: 1rem;
+      }
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-        }
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+      }
 
-        .banner {
-            width: 100%;
-            height: 200px;
-            background-color: #ccc;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border-radius: 8px;
-            height: 50vw;
-            max-height: 50vh;
-        }
+      .banner {
+        width: 100%;
+        height: 200px;
+        background-color: #ccc;
+        margin-bottom: 20px;
+        overflow: hidden;
+        border-radius: 8px;
+        height: 50vw;
+        max-height: 50vh;
+      }
 
-        .banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+      .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
 
-        .event-details h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
+      .event-details h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
 
-        .event-details p {
-            font-size: 1rem;
-            color: #666;
-        }
+      .event-details p {
+        font-size: 1rem;
+        color: #666;
+      }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-        }
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin: 30px 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+      }
 
-        .stats div {
-            text-align: center;
-        }
+      .stats div {
+        text-align: center;
+      }
 
-        .stats div p {
-            font-size: 1.2rem;
-            color: #666;
-        }
+      .stats div p {
+        font-size: 1.2rem;
+        color: #666;
+      }
 
-        .stats div span {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #333;
-        }
+      .stats div span {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+      }
 
-        .applications, .updates {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-        }
+      .applications,
+      .updates {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+      }
 
-        .applications h3, .updates h3 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-        }
+      .applications h3,
+      .updates h3 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+      }
 
-        .application-item {
-            display: flex;
-            justify-content:space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-        }
+      .application-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+      }
 
-        .application-item img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+      .application-item img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
 
-        .application-item button {
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .application-item button.delete {
-            background-color: #7f2620;
-        }
-        .application-item button.accept {
-            background-color: #37724b;
-        }
+      .application-item button {
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      .application-item button.delete {
+        background-color: #7f2620;
+      }
+      .application-item button.accept {
+        background-color: #37724b;
+      }
 
-        .updates {
-            position: relative;
-        }
+      .updates {
+        position: relative;
+      }
 
-        .update-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
+      .update-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
 
-        .update-item img {
-            width: 80px;
-            height: 80px;
-            background-color: #ccc;
-            margin-right: 20px;
-            border-radius: 8px;
-        }
+      .update-item img {
+        width: 80px;
+        height: 80px;
+        background-color: #ccc;
+        margin-right: 20px;
+        border-radius: 8px;
+      }
 
-        .update-item p {
-            font-size: 1rem;
-            color: #666;
-        }
+      .update-item p {
+        font-size: 1rem;
+        color: #666;
+      }
 
-        .add-update {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 2rem;
-            color: #333;
-            cursor: pointer;
-        }
-        .applications .application-item .applicant-info {
-            display: flex;
-            align-items: center;
-        }
-        #eventName{
-            font-size: 3rem;
-            letter-spacing: -.1rem;
-            text-transform: capitalize;
-            font-weight: 600;
-        }
-        .actionButtons{
-            display: flex;
-            flex-direction: row;
-            margin-left: auto;
-            width: 100%;
-            margin-right: 4rem;
-            justify-content: end;
-        }
-        .actionButtons button{
-            background: #000;
-            padding: .4rem 2rem;
-            border-radius: 2rem;
-            margin-left: .2rem;
-            color: #fff;
-        }
-        .actionButtons button:hover {
-            box-shadow:  0 0 1rem 0 #61616179;
-            background-color: #3b3b3b;
-        }
+      .add-update {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 2rem;
+        color: #333;
+        cursor: pointer;
+      }
+      .applications .application-item .applicant-info {
+        display: flex;
+        align-items: center;
+      }
+      #eventName {
+        font-size: 3rem;
+        letter-spacing: -0.1rem;
+        text-transform: capitalize;
+        font-weight: 600;
+      }
+      .actionButtons {
+        display: flex;
+        flex-direction: row;
+        margin-left: auto;
+        width: 100%;
+        margin-right: 4rem;
+        justify-content: end;
+      }
+      .actionButtons button {
+        background: #000;
+        padding: 0.4rem 2rem;
+        border-radius: 2rem;
+        margin-left: 0.2rem;
+        color: #fff;
+      }
+      .actionButtons button:hover {
+        box-shadow: 0 0 1rem 0 #61616179;
+        background-color: #3b3b3b;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- header section  -->
-    <header class="flex items-center justify-between px-8 py-4 ">
-        <div class="flex items-center space-x-3">
-            <h1 class="text-xl font-semibold">Oslava</h1>
-        </div>
-        <div class="flex space-x-6 text-sm font-medium">
-            <a href="/" class="hidden md:inline hover:underline">Home</a>
-        </div>
+    <header class="flex items-center justify-between px-8 py-4">
+      <div class="flex items-center space-x-3">
+        <h1 class="text-xl font-semibold">Oslava</h1>
+      </div>
+      <div class="flex space-x-6 text-sm font-medium">
+        <a href="/" class="hidden md:inline hover:underline">Home</a>
+      </div>
     </header>
     <div class="container">
-        <div class="banner">
-            <img id="eventBanner" src="https://via.placeholder.com/800x200?text=Event+Banner" alt="Event Banner">
-        </div>
-        
-        <div class="event-details">
-            <h2 id="eventName">Event Name</h2>
-            <p id="eventDescription">Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a.</p>
-        </div>
+      <div class="banner">
+        <img
+          id="eventBanner"
+          src="https://via.placeholder.com/800x200?text=Event+Banner"
+          alt="Event Banner"
+        />
+      </div>
 
-        <div class="actionButtons">
-            <button type="button">apply as volunteer</button>
-            <button type="button">apply</button>
-        </div>
+      <div class="event-details">
+        <h2 id="eventName">Event Name</h2>
+        <p id="eventDescription">
+          Lorem ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text
+          since the 1500s, when an unknown printer took a.
+        </p>
+      </div>
 
-        <div id="stats" class="stats">
-            <div>
-                <p>Application</p>
-                <span>104</span>
-            </div>
-            <div>
-                <p>Volunteer Confirmation</p>
-                <span>16</span>
-            </div>
-            <div>
-                <p>Pending Requests</p>
-                <span>12</span>
-            </div>
-        </div>
+      <div id="actionButtons" class="actionButtons"></div>
 
-        <div id="applications" class="applications">
-            <h3>Application</h3>
-            <div class="application-item">
-                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
-                <span >Om Pawar</span></div>
-                <div><button class="accept">Accept</button><button class="delete">Delete</button>
-            </div></div>
-            <div class="application-item">
-                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
-                <span class="applicant">Om Pawar</span></div>
-                <div><button class="accept">Accept</button><button class="delete">Delete</button>
-            </div></div>
-            <div class="application-item">
-                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
-                <span class="applicant">Om Pawar</span></div>
-                <div><button class="accept">Accept</button><button class="delete">Delete</button>
-            </div></div>
-            <div class="application-item">
-                <div  class="applicant-info"><img src="https://via.placeholder.com/40" alt="Applicant">
-                <span class="applicant">Om Pawar</span></div>
-               <div><button class="accept">Accept</button><button class="delete">Delete</button>
-            </div></div>
+      <div id="stats" class="stats">
+        <div>
+          <p>Application</p>
+          <span>104</span>
         </div>
+        <div>
+          <p>Volunteer Confirmation</p>
+          <span>16</span>
+        </div>
+        <div>
+          <p>Pending Requests</p>
+          <span>12</span>
+        </div>
+      </div>
 
-        <div class="updates">
-            <h3>Update</h3>
-            <span class="add-update">+</span>
-            <div class="update-item">
-                <img src="https://via.placeholder.com/80?text=Update" alt="Update Image">
-                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a.</p>
-            </div>
-            <div class="update-item">
-                <img src="https://via.placeholder.com/80?text=Update" alt="Update Image">
-                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a.</p>
-            </div>
+      <div id="applications" class="applications">
+        <h3>Application</h3>
+        <div class="application-item">
+          <div class="applicant-info">
+            <img src="https://via.placeholder.com/40" alt="Applicant" />
+            <span>Om Pawar</span>
+          </div>
+          <div>
+            <button class="accept">Accept</button
+            ><button class="delete">Delete</button>
+          </div>
         </div>
+        <div class="application-item">
+          <div class="applicant-info">
+            <img src="https://via.placeholder.com/40" alt="Applicant" />
+            <span class="applicant">Om Pawar</span>
+          </div>
+          <div>
+            <button class="accept">Accept</button
+            ><button class="delete">Delete</button>
+          </div>
+        </div>
+        <div class="application-item">
+          <div class="applicant-info">
+            <img src="https://via.placeholder.com/40" alt="Applicant" />
+            <span class="applicant">Om Pawar</span>
+          </div>
+          <div>
+            <button class="accept">Accept</button
+            ><button class="delete">Delete</button>
+          </div>
+        </div>
+        <div class="application-item">
+          <div class="applicant-info">
+            <img src="https://via.placeholder.com/40" alt="Applicant" />
+            <span class="applicant">Om Pawar</span>
+          </div>
+          <div>
+            <button class="accept">Accept</button
+            ><button class="delete">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="updates">
+        <h3>Update</h3>
+        <span class="add-update">+</span>
+        <div class="update-item">
+          <img
+            src="https://via.placeholder.com/80?text=Update"
+            alt="Update Image"
+          />
+          <p>
+            Lorem ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            since the 1500s, when an unknown printer took a.
+          </p>
+        </div>
+        <div class="update-item">
+          <img
+            src="https://via.placeholder.com/80?text=Update"
+            alt="Update Image"
+          />
+          <p>
+            Lorem ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            since the 1500s, when an unknown printer took a.
+          </p>
+        </div>
+      </div>
     </div>
-
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="javaScript/user_data.js"></script>
     <script>
-        let eventBanner = document.getElementById("eventBanner")
-        
-        socket.emit("give-event-data")
-        socket.on("take-this-event-data" , (event , community , owner)=>{
-            eventBanner.src = "/uploads/CommunityProfiles/"+event.eventBanner
-            eventName.textContent = event.eventName
-            eventDescription.textContent = event.eventDescription
-            if (owner==true) {
-                
-            }else{
-                applications.remove()
-                stats.remove()
-            }
-        })
+      let eventBanner = document.getElementById("eventBanner");
+
+      socket.emit("give-event-data");
+      socket.on("take-this-event-data", (event, community, owner) => {
+        let actionButtons = document.getElementById("actionButtons")
+        eventBanner.src = "/uploads/CommunityProfiles/" + event.eventBanner;
+        eventName.textContent = event.eventName;
+        eventDescription.textContent = event.eventDescription;
+        if (owner == true) {
+          let button = document.createElement("div");
+          button.setAttribute("onclick", applyForVolunteer(this));
+          button.innerHTML = "Create Update";
+          actionButtons.append(button);
+        } else {
+            applications.remove();
+            stats.remove();
+          let button = document.createElement("div");
+          button.setAttribute("onclick", apply(this));
+          button.innerHTML = "apply as volunteer";
+          actionButtons.append(button);
+          button.setAttribute("onclick", applyForEvent(this));
+          button.innerHTML = "apply";
+          actionButtons.append(button);
+        }
+      });
+
+      function applyForVolunteer(){
+        let actionButtons = document.getElementById("actionButtons")
+        actionButtons.children[0].textContent = "applied as volunteer"
+        alert("applied As volunteer")
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -44,14 +44,7 @@ socket.on("take-all-events" , ()=>{
       let communitydata = {
 
       };
-
-
-
-
-
         let eventContainer = document.getElementById("eventContainer")
-
-        
         let eventCard = document.createElement("div")
         eventCard.className = " rounded-lg shadow-lg p-4 border-t-4  "
         eventCard.style = "background : #f1f1f1; display:flex ; flex-direction: column;"
@@ -85,7 +78,7 @@ socket.on("take-all-events" , ()=>{
             >
               <!-- Placeholder for community logo -->
               <img
-                src="https://placehold.co/40x40"
+                src="uploads/CommunityProfiles/${element.communityProfile}"
                 alt="Community Logo"
                 class="w-10 h-10 rounded-full"
               />
