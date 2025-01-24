@@ -351,6 +351,11 @@
         }
       });
 
+      function apply(){
+        let actionButtons = document.getElementById("actionButtons")
+        actionButtons.children[1].textContent = "applied "
+        alert("applied ")
+      }
       function applyForVolunteer(){
         let actionButtons = document.getElementById("actionButtons")
         actionButtons.children[0].textContent = "applied as volunteer"
