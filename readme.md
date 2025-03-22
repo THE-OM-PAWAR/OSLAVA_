@@ -1,11 +1,11 @@
 
 
 
-# Oslava - Event Management Website
+# Oslava aka Gravitas - Event Management Website
 
 
 
-**Oslava** is a comprehensive event management platform designed to simplify the organization and participation in events. With features tailored for organizers, students, and volunteers, Oslava ensures seamless event discovery, registration, and management.
+**Oslava aka Gravitas** is a comprehensive event management platform designed to simplify the organization and participation in events. With features tailored for organizers, students, and volunteers, Oslava ensures seamless event discovery, registration, and management.
 
 ### Node JS  
 -https://shorturl.at/EB5zJ
@@ -51,9 +51,8 @@
 This project was built by:
 - Omprakash Pawar
 - Gourav Rajak
-- Satyapal Janghela
-- Vikram Pratap Singh
-- Naman Sharma 
+- Khushi Pawar
+- Deepti Dubey
 
 ## Getting Started
 
